@@ -25,15 +25,15 @@ char *read_request(int accepted_socket_fd);
 void send_response(int accepted_socket_fd, char *requested_resource);
 
 /*
-./main -h 127.0.0.1 -p 12345 -d /tmp
+./final -h 127.0.0.1 -p 12345 -d /tmp
 */
 
 // compile with -pthread
 int main(int argc, char **argv) {
-    //read_args(argc, argv);
-    ip = "127.0.0.1";
-    port = "12345";
-    directory = "/tmp";
+    read_args(argc, argv);
+    // ip = "127.0.0.1";
+    // port = "12345";
+    // directory = "/tmp";
 
     start_server();
     daemon(1, 0);
@@ -151,8 +151,10 @@ void send_response(int accepted_socket_fd, char *resource_uri) {
     char *http_ok = "HTTP/1.0 200 OK\r\n"
         "Content-Type: text/html\r\n"
         "Content-Length: %d\r\n\r\n";
-
-    FILE *resource_file = fopen(resource_uri + 1, "r");
+    char full_path[strlen(directory) + strlen(resource_uri) + 1];
+    strcpy(full_path, directory);
+    strcat(full_path, resource_uri);
+    FILE *resource_file = fopen(full_path, "r");
     if (resource_file == NULL) {
         write(accepted_socket_fd, http_not_found, strlen(http_not_found) + 1);
         return;
@@ -189,7 +191,7 @@ void read_args(int argc, char **argv) {
                 abort();
         }
     }
-    printf("ip = %s, port = %s, directory = %s\n", ip, port, directory);
+    //printf("ip = %s, port = %s, directory = %s\n", ip, port, directory);
 }
 
 void handle_error(char *error) {
