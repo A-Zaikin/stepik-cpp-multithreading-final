@@ -95,6 +95,7 @@ void start_server()
 
     if (possible_addr == NULL) {
         printf("No possible addresses.\n");
+        pause();
         exit(EXIT_FAILURE);
     }
 
