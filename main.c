@@ -139,7 +139,7 @@ char *read_request(int accepted_socket_fd) {
         exit(EXIT_FAILURE);
     }
 
-    char *uri = strtok(NULL, " ");
+    char *uri = strtok(NULL, " ?");
     uri = strdup(uri);
     printf("Successfully recieved GET: \"%s\"\n", uri);
 
