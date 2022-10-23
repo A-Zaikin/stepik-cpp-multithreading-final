@@ -35,8 +35,8 @@ int main(int argc, char **argv) {
     // port = "12345";
     // directory = "/tmp";
 
-    start_server();
     daemon(1, 0);
+    start_server();
 
     printf("Waiting for requests...\n");
 
